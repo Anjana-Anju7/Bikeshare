@@ -28,14 +28,13 @@ public class CreateAccount extends HttpServlet {
 
     static PreparedStatement pst = null;
     static PreparedStatement pst2 = null;
-     static PreparedStatement pst3 = null;
+    static PreparedStatement pst3 = null;
     static ResultSet rs = null;
     static Connection con = null;
     static boolean status = false;
     static String sql = "";
     static String sql2 = "";
-    static String sql3="";
-    
+    static String sql3 = "";
 
     @Override
     public void init() throws ServletException {
@@ -69,7 +68,7 @@ public class CreateAccount extends HttpServlet {
             int userSaved;
             int profileSaved;
             int creditSaved;
-            int userId = (int)(Math.random() * 10000001);
+            int userId = (int) (Math.random() * 10000001);
             m.setId(userId);
             m.setFirstName(request.getParameter("fname"));
             m.setMiddleName(request.getParameter("mname"));
@@ -78,10 +77,35 @@ public class CreateAccount extends HttpServlet {
             m.setUsername(request.getParameter("uname"));
             m.setPassword(request.getParameter("pass"));
             String cardNumber = request.getParameter("cardNumber");
-            int csv = Integer.parseInt(request.getParameter("cardcsv"));
-            float topup= Float.parseFloat(request.getParameter("topup"));
-
+            String csv = request.getParameter("cardcsv");
+            float topup = Float.parseFloat(request.getParameter("topup"));
             HttpSession session = request.getSession();
+
+           int countCardNumbers = 0;
+           int countCardCsv = 0;
+           
+           countCardNumbers = cardNumber.length();
+           countCardCsv = csv.length();
+//
+//            while (cardNumber != 0) {
+//                // num = num/10
+//                cardNumber /= 10;
+//                ++countCardNumbers;
+//            }
+//            
+//            while (csv != 0) {
+//                // num = num/10
+//                csv /= 10;
+//                ++countCardCsv;
+//            }
+            
+            if(countCardNumbers != 16 || countCardCsv != 3){
+                //set session success
+                session.setAttribute("error", "Card Number should be 16 digits and CSV 3 digits you entered cardNumber:"+countCardNumbers+" digits and CSV:"+countCardCsv+" digits");
+                response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
+                response.setHeader("Location", "create-account.jsp");
+                return;
+            }
 
             sql = "insert into users (id,username,password) values (?,?,?)";
             pst = con.prepareStatement(sql);
@@ -98,15 +122,15 @@ public class CreateAccount extends HttpServlet {
             pst2.setString(4, m.getLastName());
             pst2.setString(5, m.getDob());
             pst2.setString(6, cardNumber);
-            pst2.setInt(7, csv);
+            pst2.setString(7, csv);
             profileSaved = pst2.executeUpdate();
-            
+
             sql3 = "insert into usercredits (userId,amount) values (?,?)";
             pst3 = con.prepareStatement(sql3);
             pst3.setInt(1, m.getId());
-            pst3.setFloat(2,topup);
+            pst3.setFloat(2, topup);
             creditSaved = pst3.executeUpdate();
-            
+
             //check if both successful
             if (userSaved > -1 && profileSaved > -1 && creditSaved > -1) {
                 //set session success
@@ -118,7 +142,7 @@ public class CreateAccount extends HttpServlet {
                 session.setAttribute("error", "Error In Registering");
                 response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
                 response.setHeader("Location", "create-account.jsp");
-                
+
             }
 
         } catch (Exception e) {

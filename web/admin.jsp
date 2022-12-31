@@ -9,6 +9,22 @@
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
 <%@page import="main.DBConnection"%>
 <!DOCTYPE html>
+<%
+    //check if session is set, i.e user is logged in
+    if (session.getAttribute("userid")==null){
+      response.setStatus(response.SC_FOUND);
+      response.setHeader("Location", "login-panel.jsp");
+      return;
+    }
+      //check whether admin is the one logged in
+    if(session.getAttribute("userid") != null && session.getAttribute("userid") != "false"){
+        if(session.getAttribute("userLevel") != "admin"){
+            response.setStatus(response.SC_FOUND);
+            response.setHeader("Location", "login-panel.jsp");
+            return;
+        }
+    }
+%>
 <html lang="en">
     <head>
         <title>admin area</title>

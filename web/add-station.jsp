@@ -5,8 +5,25 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@page import="java.sql.*" %>
+<%@ page import = "java.io.*,java.util.*,java.sql.*"%>
+<%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
 <!DOCTYPE html>
+<%
+    //check if session is set, i.e user is logged in
+    if (session.getAttribute("userid")==null){
+      response.setStatus(response.SC_FOUND);
+      response.setHeader("Location", "login-panel.jsp");
+      return;
+    }
+      //check whether admin is the one logged in
+    if(session.getAttribute("userid") != null && session.getAttribute("userid") != "false"){
+        if(session.getAttribute("userLevel") != "admin"){
+            response.setStatus(response.SC_FOUND);
+            response.setHeader("Location", "login-panel.jsp");
+            return;
+        }
+    }
+%>
 <html lang="en">
     <head>
         <title>Add Station</title>
@@ -67,11 +84,26 @@
                         <div class="form-group">
                             <label>Enter Station Name:</label><br>
                             <input type="text" class="email-bt" name="sname" required="true" />
-                        </div>
-                        <br><br>
+                        </div>                       
+                        <br>
+                        <div class="form-group">
+                            <label>Number of Bikes:</label><br>
+                            <input type="number" class="email-bt" name="numBikes" required="true" />
+                        </div>                       
+                        <br>
+                        <div class="form-group">
+                            <label>Station Latitude:</label><br>
+                            <input type="text" class="email-bt" name="latitude" required="true" />
+                        </div>                       
+                        <br>
+                        <div class="form-group">
+                            <label>Station longitude:</label><br>
+                            <input type="text" class="email-bt" name="longitude" required="true" />
+                        </div>                       
+                        <br>
                         <div class="form-group">
                            <button class="btn btn-primary">Submit</button><br>
-                            <label><a href="admin.jsp" style="color:white">Go Back</a></label>
+                           <label><a href="admin.jsp" style="color:white">Go Back</a></label>
                         </div>
                     </form>
 

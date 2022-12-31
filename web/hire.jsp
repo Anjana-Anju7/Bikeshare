@@ -9,9 +9,17 @@
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
 <!DOCTYPE html>
+<%
+    //check if session is set, i.e user is logged in
+    if (session.getAttribute("userid")==null){
+      response.setStatus(response.SC_FOUND);
+      response.setHeader("Location", "login-panel.jsp");
+      return;
+    }
+%>
 <html lang="en">
     <head>
-        <title>Add Station</title>
+        <title>Hire Bike</title>
         <jsp:include page="include/css.jsp"/>
         <jsp:include page="include/meta.jsp"/>
         <!--Start of Tawk.to Script-->
@@ -83,10 +91,10 @@
                         <em>Brand:<%=brand%></em><br>
                         <em>Model:<%=model%></em><br>
                         <em>Status:<%=status%></em><br>
-                        <em>Price: $ <%=price%></em><br>
+<!--                        <em>Price: $ <%//=price%></em><br>-->
                     </div>
                     <% } %>
-                    <form action="A" method="post">
+                    <form action="HireBike" method="post">
 
                         <div class="form-group">
                             <label>Select Starting Station:</label><br>
@@ -129,10 +137,20 @@
                                 <%}%>
                             </select>
                         </div>
+                         <div class="form-group">
+                            <label>Subscription Plan:</label>
+                            <br>
+                            <span style="color:white;"><em><strong>NB: The system will auto charge your credit card.year plan:90 Euros, 24 hrs: 2 Euros </strong></em></span>
+                            <select name="plan" required="true" class="email-bt" >
+                                <option value="">select your plan</option> 
+                                <option value="yearly">yearly 90 Euros</option> 
+                                <option value="daily">Daily 2 Euros</option>
+                            </select>
+                        </div>   
                         <br><br>
                         <div class="form-group">
                             <button class="btn btn-primary">Submit</button><br>
-                            <label><a href="admin.jsp" style="color:white">Go Back</a></label>
+                            <label><a href="bikes.jsp" style="color:white">Go Back</a></label>
                         </div>
                     </form>
 

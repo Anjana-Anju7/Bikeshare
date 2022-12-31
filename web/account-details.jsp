@@ -15,18 +15,10 @@
       response.setHeader("Location", "login-panel.jsp");
       return;
     }
-    //check whether admin is the one logged in
-    if(session.getAttribute("userid") != null && session.getAttribute("userid") != "false"){
-        if(session.getAttribute("userLevel") != "admin"){
-            response.setStatus(response.SC_FOUND);
-            response.setHeader("Location", "login-panel.jsp");
-            return;
-        }
-    }
 %>
 <html lang="en">
     <head>
-        <title>Add Bikes</title>
+        <title>account details</title>
         <jsp:include page="include/css.jsp"/>
         <jsp:include page="include/meta.jsp"/>
         <!--Start of Tawk.to Script-->
@@ -58,7 +50,8 @@
             <div class="contact_section layout_padding">
                 <div class="container">
                     <div class="contact_main">
-                        <h1 class="request_text">Add New Bike</h1>
+                        <h1 class="request_text">Account Details</h1>
+                        <label>Want to verify a code?? <a href="secret-code-verification.jsp">click here</a></label><br><br>
                         <span style="color:red;font-size:x-large;">
                         <%
                             if (session.getAttribute("error") != null && session.getAttribute("error") != "false") {
@@ -68,8 +61,8 @@
                                 session.removeAttribute("error");
                             }
                         %>
-                        </span><br>
-                         <span style="color:white;font-size:x-large;">
+                    </span><br>
+                    <span style="color:white;font-size:x-large;">
                         <%
                             if (session.getAttribute("success") != null && session.getAttribute("success") != "false") {
                                 String s = (String) session.getAttribute("success");
@@ -78,28 +71,37 @@
                                 session.removeAttribute("success");
                             }
                         %>
-                        </span><br>
-                    <form action="AddBike" method="post">
+                    </span><br>
+                    <form action="UpdateAccount" method="post">
+
                         <div class="form-group">
-                            <label>Bike Brand:</label><br>
-                            <input type="text" class="email-bt" placeholder="Bike Brand" name="brand" required="true">
-                        </div>
+                            <label>UserId:</label><br>
+                            <input type="text" class="email-bt" name="id" value="" readonly="true" required="true" />
+                        </div>                       
+                        <br>
                         <div class="form-group">
-                            <label>Bike Model:</label><br>
-                            <input type="text" class="email-bt" placeholder="Bike Model" name="model" required="true">
-                        </div>
+                            <label>First Name:</label><br>
+                            <input type="text" class="email-bt" value="" name="fname" required="true" />
+                        </div>                       
+                        <br>
                         <div class="form-group">
-                            <label>Description:</label><br>
-                            <input type="text" class="email-bt" placeholder="Bike description" name="des" required="true">
-                        </div>
+                            <label>Middle Name:</label><br>
+                            <input type="text" class="email-bt" value="" name="mname" required="true" />
+                        </div>                       
+                        <br>
                         <div class="form-group">
-                            <label>Price:</label><br>
-                            <input type="text" class="email-bt" placeholder="Bike Price" name="price" required="true">
-                        </div>
-                        
+                            <label>Last Name:</label><br>
+                            <input type="text" class="email-bt" value="" name="lname" required="true" />
+                        </div>                       
+                        <br>
                         <div class="form-group">
-                            <button class="btn btn-primary">Submit</button><br>
-                            <label><a href="admin.jsp" style="color:white">Go Back</a></label>
+                            <label>D.O.B:</label><br>
+                            <input type="date" class="email-bt" value="" name="dob" required="true" />
+                        </div>                       
+                        <br>
+                        <div class="form-group">
+                            <button class="btn btn-primary">Update</button><br>
+                            <label><a href="index.jsp" style="color:white">Go Back</a></label>
                         </div>
                     </form>
 

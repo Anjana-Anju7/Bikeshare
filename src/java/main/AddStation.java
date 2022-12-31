@@ -57,11 +57,18 @@ public class AddStation extends HttpServlet {
         PrintWriter out = response.getWriter();
         StationsModel m = new StationsModel();
         m.setStationName(request.getParameter("sname"));
+        m.setNumBikes(Integer.parseInt(request.getParameter("numBikes")));
+        m.setLatitude(request.getParameter("latitude"));
+        m.setLongitude(request.getParameter("longitude"));
+        
         HttpSession session = request.getSession();
         try {
-            sql = "insert into stations(stationName)values(?)";
+            sql = "insert into stations(stationName,number_of_bikes,station_latitude,station_longitude)values(?,?,?,?)";
             pst = con.prepareStatement(sql);
             pst.setString(1, m.getStationName());
+            pst.setInt(2, m.getNumBikes());
+            pst.setString(3, m.getLatitude());
+            pst.setString(4, m.getLongitude());
             status = pst.executeUpdate();
 
             if (status > -1) {

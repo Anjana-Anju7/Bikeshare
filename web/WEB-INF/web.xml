@@ -28,6 +28,18 @@
         <servlet-name>UserRequest</servlet-name>
         <servlet-class>main.UserRequest</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VerifyCode</servlet-name>
+        <servlet-class>main.VerifyCode</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateAccount</servlet-name>
+        <servlet-class>main.UpdateAccount</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>HireBike</servlet-name>
+        <servlet-class>main.HireBike</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CreateAccount</servlet-name>
         <url-pattern>/CreateAccount</url-pattern>
@@ -55,6 +67,18 @@
     <servlet-mapping>
         <servlet-name>UserRequest</servlet-name>
         <url-pattern>/UserRequest</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyCode</servlet-name>
+        <url-pattern>/VerifyCode</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateAccount</servlet-name>
+        <url-pattern>/UpdateAccount</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HireBike</servlet-name>
+        <url-pattern>/HireBike</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -22,7 +22,7 @@ import model.UserModel;
 
 /**
  *
- * @author 
+ * @author
  */
 public class LoginUser extends HttpServlet {
 
@@ -32,9 +32,8 @@ public class LoginUser extends HttpServlet {
     static Connection con = null;
     static boolean status = false;
     static String sql = "";
-    
-    
-     @Override
+
+    @Override
     public void init() throws ServletException {
         try {
             con = DBConnection.ConnectDB();
@@ -44,6 +43,7 @@ public class LoginUser extends HttpServlet {
             Logger.getLogger(CreateAccount.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -57,37 +57,33 @@ public class LoginUser extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        UserModel m =  new UserModel();
+        UserModel m = new UserModel();
         m.setUsername(request.getParameter("uname"));
         m.setPassword(request.getParameter("pass"));
-        try{
-         sql = "select *from users where username=? and password=?";   
-         pst = con.prepareStatement(sql);
-         pst.setString(1, m.getUsername());
-         pst.setString(2, m.getPassword());
-         rs = pst.executeQuery();
-         status = rs.next();
-         HttpSession session = request.getSession();
-         if(status){
-           session.setAttribute("username", rs.getString("username"));
-           session.setAttribute("userLevel", rs.getString("user_type"));
-           session.setAttribute("userid", rs.getString("id"));
-           //redirect according to user level 
-           if(rs.getString("user_type").equals("standard")){
-               response.setStatus(response.SC_FOUND);
-               response.setHeader("Location", "index.jsp");
-           }else if(rs.getString("user_type").equals("admin")){
-               response.setStatus(response.SC_FOUND);
-               response.setHeader("Location", "admin.jsp");
-           }
-           
-         }else{
-            session.setAttribute("error", "Wrong User name or password");
-            response.setStatus(response.SC_FOUND);
-            response.setHeader("Location", "Login.jsp");
-         }
-            
-        }catch(Exception e){
+        try {
+            sql = "select *from users where username=? and password=? and user_type='standard'";
+            pst = con.prepareStatement(sql);
+            pst.setString(1, m.getUsername());
+            pst.setString(2, m.getPassword());
+            rs = pst.executeQuery();
+            status = rs.next();
+            HttpSession session = request.getSession();
+            if (status) {
+                session.setAttribute("username", rs.getString("username"));
+                session.setAttribute("userLevel", rs.getString("user_type"));
+                session.setAttribute("userid", rs.getString("id"));
+                //redirect according to user level 
+
+                response.setStatus(response.SC_FOUND);
+                response.setHeader("Location", "account-details.jsp");
+
+            } else {
+                session.setAttribute("error", "Wrong User name or password");
+                response.setStatus(response.SC_FOUND);
+                response.setHeader("Location", "Login.jsp");
+            }
+
+        } catch (Exception e) {
             out.print(e);
         }
     }

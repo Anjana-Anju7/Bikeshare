@@ -72,7 +72,7 @@
                             <p class="lorem_text"><%=description%></p>
                             <div class="btn_main">
                                 <div class="buy_bt"><a href="hire.jsp?id=<%=id%>">Hire Now</a></div>
-                                <h4 class="price_text">Price <span style=" color: #f7c17b">$</span> <span style=" color: #325662"><%=price%></span></h4>
+                                <!--<h4 class="price_text">Price <span style=" color: #f7c17b">$</span> <span style=" color: #325662"><%//=price%></span></h4>-->
                             </div>
                         </div>
                     </div>

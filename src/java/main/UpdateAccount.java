@@ -7,42 +7,16 @@ package main;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import model.UserModel;
 
 /**
  *
- * @author
+ * @author Steven
  */
-public class LoginAdmin extends HttpServlet {
-
-    static PreparedStatement pst = null;
-    static PreparedStatement pst2 = null;
-    static ResultSet rs = null;
-    static Connection con = null;
-    static boolean status = false;
-    static String sql = "";
-
-    @Override
-    public void init() throws ServletException {
-        try {
-            con = DBConnection.ConnectDB();
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CreateAccount.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(CreateAccount.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+public class UpdateAccount extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,35 +30,17 @@ public class LoginAdmin extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
-        UserModel m = new UserModel();
-        m.setUsername(request.getParameter("uname"));
-        m.setPassword(request.getParameter("pass"));
-        try {
-            sql = "select *from users where username=? and password=? and user_type='admin'";
-            pst = con.prepareStatement(sql);
-            pst.setString(1, m.getUsername());
-            pst.setString(2, m.getPassword());
-            rs = pst.executeQuery();
-            status = rs.next();
-            HttpSession session = request.getSession();
-            if (status) {
-                session.setAttribute("username", rs.getString("username"));
-                session.setAttribute("userLevel", rs.getString("user_type"));
-                session.setAttribute("userid", rs.getString("id"));
-                //redirect according to user level 
-
-                response.setStatus(response.SC_FOUND);
-                response.setHeader("Location", "admin.jsp");
-
-            } else {
-                session.setAttribute("error", "Wrong User name or password");
-                response.setStatus(response.SC_FOUND);
-                response.setHeader("Location", "login-admin.jsp");
-            }
-
-        } catch (Exception e) {
-            out.print(e);
+        try (PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet UpdateAccount</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet UpdateAccount at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
     }
 
