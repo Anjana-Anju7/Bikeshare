@@ -40,7 +40,7 @@
         <div class="contact_section layout_padding">
             <div class="container">
                 <div class="contact_main">
-                    <h1 class="request_text">Login To Your Account</h1>
+                    <h1 class="request_text">Regular User Account Login</h1>
                     <%-- get sessions Here --%>
                     <span style="color:white;font-size:x-large;">
                         <%

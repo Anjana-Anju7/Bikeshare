@@ -28,11 +28,14 @@ public class CreateAccount extends HttpServlet {
 
     static PreparedStatement pst = null;
     static PreparedStatement pst2 = null;
+     static PreparedStatement pst3 = null;
     static ResultSet rs = null;
     static Connection con = null;
     static boolean status = false;
     static String sql = "";
     static String sql2 = "";
+    static String sql3="";
+    
 
     @Override
     public void init() throws ServletException {
@@ -65,39 +68,51 @@ public class CreateAccount extends HttpServlet {
             UserModel m = new UserModel();
             int userSaved;
             int profileSaved;
-
-            m.setId(Integer.parseInt(request.getParameter("id")));
+            int creditSaved;
+            int userId = (int)(Math.random() * 10000001);
+            m.setId(userId);
             m.setFirstName(request.getParameter("fname"));
             m.setMiddleName(request.getParameter("mname"));
             m.setLastName(request.getParameter("lname"));
             m.setDob(request.getParameter("dob"));
             m.setUsername(request.getParameter("uname"));
             m.setPassword(request.getParameter("pass"));
+            String cardNumber = request.getParameter("cardNumber");
+            int csv = Integer.parseInt(request.getParameter("cardcsv"));
+            float topup= Float.parseFloat(request.getParameter("topup"));
 
             HttpSession session = request.getSession();
 
-            sql = "insert into users (id,username, password) values (?,?,?)";
+            sql = "insert into users (id,username,password) values (?,?,?)";
             pst = con.prepareStatement(sql);
             pst.setInt(1, m.getId());
             pst.setString(2, m.getUsername());
             pst.setString(3, m.getPassword());
             userSaved = pst.executeUpdate();
 
-            sql2 = "insert into profile (userId,first_name, middle_name,last_name,dob) values (?,?,?,?,?)";
+            sql2 = "insert into profile (userId,first_name, middle_name,last_name,dob,credit_card_number,credit_card_csv) values (?,?,?,?,?,?,?)";
             pst2 = con.prepareStatement(sql2);
             pst2.setInt(1, m.getId());
             pst2.setString(2, m.getFirstName());
             pst2.setString(3, m.getMiddleName());
             pst2.setString(4, m.getLastName());
             pst2.setString(5, m.getDob());
+            pst2.setString(6, cardNumber);
+            pst2.setInt(7, csv);
             profileSaved = pst2.executeUpdate();
-
+            
+            sql3 = "insert into usercredits (userId,amount) values (?,?)";
+            pst3 = con.prepareStatement(sql3);
+            pst3.setInt(1, m.getId());
+            pst3.setFloat(2,topup);
+            creditSaved = pst3.executeUpdate();
+            
             //check if both successful
-            if (userSaved > -1 && profileSaved > -1) {
+            if (userSaved > -1 && profileSaved > -1 && creditSaved > -1) {
                 //set session success
-                session.setAttribute("success", "Registration Successful,Login now");
+                session.setAttribute("success", "Registration Successful,Login as regular user");
                 response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
-                response.setHeader("Location", "Login.jsp");
+                response.setHeader("Location", "login-panel.jsp");
             } else {
                 //set session error
                 session.setAttribute("error", "Error In Registering");

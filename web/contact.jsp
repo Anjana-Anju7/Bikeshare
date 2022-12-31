@@ -36,21 +36,44 @@
                 <div class="container">
                     <div class="contact_main">
                         <h1 class="request_text">A Call Back</h1>
-                        <form action="/action_page.php">
+                          <%-- get sessions Here --%>
+                    <span style="color:white;font-size:x-large;">
+                        <%
+                            if (session.getAttribute("success") != null && session.getAttribute("success") != "false") {
+                                String s = (String) session.getAttribute("success");
+                                out.println(s);
+                                //on page refresh remove message
+                                session.removeAttribute("success");
+                            }
+                        %>
+                    </span><br>
+                     <span style="color:brown;font-size:x-large;">
+                        <%
+                            if (session.getAttribute("error") != null && session.getAttribute("error") != "false") {
+                                String s = (String) session.getAttribute("error");
+                                out.println(s);
+                                //on page refresh remove message
+                                session.removeAttribute("error");
+                            }
+                        %>
+                    </span><br>
+                        <form action="UserRequest" method="post">
                             <div class="form-group">
-                                <input type="text" class="email-bt" placeholder="Name" name="Name">
+                                <input type="text" class="email-bt" placeholder="Name" name="Name" required="true">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="email-bt" placeholder="Email" name="Name">
+                                <input type="text" class="email-bt" placeholder="Email" name="Email" required="true">
                             </div>
                             <div class="form-group">
-                                <input type="text" class="email-bt" placeholder="Phone Numbar" name="Email">
+                                <input type="text" class="email-bt" placeholder="Phone Number" name="phone" required="true">
                             </div>
                             <div class="form-group">
-                                <textarea class="massage-bt" placeholder="Massage" rows="5" id="comment" name="Massage"></textarea>
+                                <textarea class="massage-bt" placeholder="Message" rows="5" id="comment" name="Message" required="true"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-primary">SEND</button>
                             </div>
                         </form>
-                        <div class="send_btn"><a href="#">SEND</a></div>
                     </div>
                 </div>
             </div>

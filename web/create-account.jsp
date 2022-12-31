@@ -29,6 +29,23 @@
                 color: white;
             }
         </style>
+        <script>
+           var cardNumber = document.getElementById('cno').value;
+           var csvNumber = document.getElementById('csv').value;
+           function checkCard(){
+               if(cardNumber.toString().length !== 16){
+                   document.getElementById('err1').innerHTML="Card Number should be 16 digits.";
+                   return false;
+               }
+               else if(csvNumber.toString().length !== 3){
+                   document.getElementById('err').innerHTML="Card CSV should be 3 digits.";
+                   return false;
+               }
+               else{
+                   return true;
+               }
+           }
+        </script>
     </head>
     <body>
         <!-- header section start -->
@@ -50,12 +67,9 @@
                                 session.removeAttribute("error");
                             }
                         %>
-                        </span><br>
-                    <form action="CreateAccount" method="post">
-                        <div class="form-group">
-                            <label>ID Number:</label><br>
-                            <input type="number" class="email-bt" placeholder="ID Number" name="id" required="true">
-                        </div>
+                    </span><br>
+                    <form action="CreateAccount" method="post" onsubmit="checkCard()">
+
                         <div class="form-group">
                             <label>First Name:</label><br>
                             <input type="text" class="email-bt" placeholder="First Name" name="fname" required="true">
@@ -81,8 +95,20 @@
                             <input type="password" class="email-bt" placeholder="Your Password" name="pass" required="true">
                         </div>
                         <div class="form-group">
+                            <label>Credit Card Number:</label><br>
+                            <span style="color:red;"><p id="err1"></p></span><br>
+                            <input type="number" id="cno" class="email-bt" placeholder="Card Number" name="cardNumber" required="true" maxlength="16">
+                            <br><br>
+                            <label>Credit CSV Number</label><br>
+                            <span style="color:red;"><p id="err"></p></span><br>
+                            <input type="number" id="csv" class="email-bt" required="true" placeholder="CSV number" maxlength="3" name="cardcsv" />
+                            <br><br>
+                            <label>Top Up (50 Euros)(will be charged on your card):</label><br>
+                            <input type="number" name="topup" class="email-bt" required="true" value="50" readonly="true">
+                        </div>
+                        <div class="form-group">
                             <button class="btn btn-primary">Register</button><br>
-                            <label>Have an account?</label><a href="Login.jsp">Login Here</a>
+                            <label>Have an account?</label><a href="login-panel.jsp">Login Here</a>
                         </div>
                     </form>
 

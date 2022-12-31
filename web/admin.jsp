@@ -68,10 +68,11 @@
                     <th>Last Name</th>
                     <th>Date of Birth</th>
                     <th>User Type</th>
+                    <th>User Status</th>
                 </tr>    
                 <%
                     String sql = "select a.userId,a.first_name,a.middle_name,a.last_name,a.dob,"
-                            + "b.user_type from profile a, users b where a.userId = b.id;";
+                            + "b.user_type,b.status from profile a, users b where a.userId = b.id;";
                     // File[] files = dir.listFiles();
                     //Random rand = new Random();
                     //File file = files[rand.nextInt(files.length)];
@@ -85,6 +86,7 @@
                         String lname = rs.getString("last_name");
                         String dob = rs.getString("dob");
                         String usertype = rs.getString("user_type");
+                        String status = rs.getString("status");
 
                 %>
                 <tr>
@@ -94,11 +96,48 @@
                     <td><%=lname%></td> 
                     <td><%=dob%></td> 
                     <td><%=usertype%></td> 
+                    <td><%=status%></td>
                 </tr>
                 <% } %>
             </table>
             <br><br>
             <h3>User Requests:</h3>
+            <table border="1">
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>Message</th>
+                    <th>Date Sent</th>
+                </tr>    
+                <%
+                    String sql1 = "select *from user_requests order by id desc";
+                    // File[] files = dir.listFiles();
+                    //Random rand = new Random();
+                    //File file = files[rand.nextInt(files.length)];
+                    Connection con1 = DBConnection.ConnectDB();
+                    PreparedStatement pst1 = con.prepareStatement(sql1);
+                    ResultSet rs1 = pst1.executeQuery();
+                    while (rs1.next()) {
+                        int id = rs1.getInt("id");
+                        String name = rs1.getString("name");
+                        String mail = rs1.getString("email");
+                        String phn = rs1.getString("phone_number");
+                        String msg = rs1.getString("message");
+                        String date = rs1.getString("date");
+
+                %>
+                <tr>
+                    <td><%=id%></td>  
+                    <td><%=name%></td> 
+                    <td><%=mail%></td> 
+                    <td><%=phn%></td> 
+                    <td><%=msg%></td> 
+                    <td><%=date%></td> 
+                </tr>
+                <% } %>
+            </table>
         </div>
 
         <br><br><br>

@@ -24,6 +24,10 @@
         <servlet-name>LoginAdmin</servlet-name>
         <servlet-class>main.LoginAdmin</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UserRequest</servlet-name>
+        <servlet-class>main.UserRequest</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CreateAccount</servlet-name>
         <url-pattern>/CreateAccount</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>LoginAdmin</servlet-name>
         <url-pattern>/LoginAdmin</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UserRequest</servlet-name>
+        <url-pattern>/UserRequest</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

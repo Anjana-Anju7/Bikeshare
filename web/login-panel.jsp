@@ -41,6 +41,16 @@
             <div class="container">
                 <div class="contact_main">
                     <h1 class="request_text">Choose your Login Option</h1>
+                     <span style="color:white;font-size:x-large;">
+                        <%
+                            if (session.getAttribute("success") != null && session.getAttribute("success") != "false") {
+                                String s = (String) session.getAttribute("success");
+                                out.println(s);
+                                //on page refresh remove message
+                                session.removeAttribute("success");
+                            }
+                        %>
+                    </span><br>
                     <%-- get sessions Here --%>
                         <div class="form-group">
                             <a href="Login.jsp"><button class="btn btn-primary">Regular User Login</button></a>
