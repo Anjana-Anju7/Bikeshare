@@ -40,7 +40,7 @@
         <div class="contact_section layout_padding">
             <div class="container">
                 <div class="contact_main">
-                    <h1 class="request_text">Choose your Login Option</h1>
+                    <h1 class="request_text">GO TO USER LOGIN</h1>
                      <span style="color:white;font-size:x-large;">
                         <%
                             if (session.getAttribute("success") != null && session.getAttribute("success") != "false") {
@@ -53,9 +53,9 @@
                     </span><br>
                     <%-- get sessions Here --%>
                         <div class="form-group">
-                            <a href="Login.jsp"><button class="btn btn-primary">Regular User Login</button></a>
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <a href="login-admin.jsp"><button class="btn btn-primary">Admin Login</button></a>
+                            <a href="Login.jsp"><button class="btn btn-primary">Go To Login</button></a>
+<!--                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <a href="login-admin.jsp"><button class="btn btn-primary">Admin Login</button></a>-->
                         </div>
                 </div>
             </div>

@@ -61,7 +61,7 @@ public class LoginUser extends HttpServlet {
         m.setUsername(request.getParameter("uname"));
         m.setPassword(request.getParameter("pass"));
         try {
-            sql = "select *from users where username=? and password=? and user_type='standard'";
+            sql = "select *from users where username=? and password=?";
             pst = con.prepareStatement(sql);
             pst.setString(1, m.getUsername());
             pst.setString(2, m.getPassword());

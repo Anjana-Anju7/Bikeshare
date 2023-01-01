@@ -68,66 +68,72 @@ public class HireBike extends HttpServlet {
         //set variables 
         //kiosk variables
         int userId = Integer.parseInt(request.getParameter("userid"));
-        int secretCode = (int) (Math.random() *100001);
+        int secretCode = (int) (Math.random() * 100001);
         LocalDateTime myDateObj = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); 
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String generated_date = myDateObj.format(myFormatObj);
-        
+
         //transactions 
         int start_stationId = Integer.parseInt(request.getParameter("start"));
         float amount = 0;
         String plan = request.getParameter("plan");
         LocalDateTime myDateObj2 = LocalDateTime.now();
-        DateTimeFormatter myFormatObj2 = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss"); 
+        DateTimeFormatter myFormatObj2 = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
         String trans_date = myDateObj.format(myFormatObj2);
-        
-        if(plan.equals("yearly")){
+
+        if (plan.equals("yearly")) {
             amount = 90;
-        }
-        else if(plan.equals("daily")){
+        } else if (plan.equals("daily")) {
             amount = 2;
         }
         //rentals
         int bikeId = Integer.parseInt(request.getParameter("id"));
         int end_stationId = Integer.parseInt(request.getParameter("end"));
-        
-        try{
-          //insert into rentals
-          sql = "insert into rentals(userId,bikeId,start,end,subscription_plan)values(?,?,?,?,?)";
-          pst = con.prepareStatement(sql);
-          pst.setInt(1, userId);
-          pst.setInt(2, bikeId);
-          pst.setInt(3, start_stationId);
-          pst.setInt(4, end_stationId);
-          pst.setString(5, plan);
-          status = pst.executeUpdate();
-          
-          //insert into transactions
-          sql2 = "insert into transactions(userId,stationId,amount,transaction_date)values(?,?,?,?)";
-          pst2 = con.prepareStatement(sql2);
-          pst2.setInt(1, userId);
-          pst2.setInt(2, start_stationId);
-          pst2.setFloat(3, amount);
-          pst2.setString(4, trans_date);
-          status1 = pst2.executeUpdate();
-          
-          //insert into kiosk
-          sql3 = "insert into kiosk(userId,secret_code,generated_date)values(?,?,?)";
-          pst3 = con.prepareStatement(sql3);
-          pst3.setInt(1, userId);
-          pst3.setInt(2, secretCode);
-          pst3.setString(3, generated_date);
-          status2 = pst3.executeUpdate();
-          
-          //check if queries are successful
-          if(status > -1 && status1 > -1 && status2 > -1){
-                session.setAttribute("success", "Bike Hire Successfully, your secret code is:"+secretCode+" dont share it");
+
+        try {
+            //insert into rentals
+            sql = "insert into rentals(userId,bikeId,start,end,subscription_plan)values(?,?,?,?,?)";
+            pst = con.prepareStatement(sql);
+            pst.setInt(1, userId);
+            pst.setInt(2, bikeId);
+            pst.setInt(3, start_stationId);
+            pst.setInt(4, end_stationId);
+            pst.setString(5, plan);
+            status = pst.executeUpdate();
+
+            //insert into transactions
+            sql2 = "insert into transactions(userId,stationId,amount,transaction_date)values(?,?,?,?)";
+            pst2 = con.prepareStatement(sql2);
+            pst2.setInt(1, userId);
+            pst2.setInt(2, start_stationId);
+            pst2.setFloat(3, amount);
+            pst2.setString(4, trans_date);
+            status1 = pst2.executeUpdate();
+
+            //insert into kiosk
+            sql3 = "insert into kiosk(userId,start_station_id,secret_code,generated_date)values(?,?,?,?)";
+            pst3 = con.prepareStatement(sql3);
+            pst3.setInt(1, userId);
+            pst3.setInt(2, start_stationId);
+            pst3.setInt(3, secretCode);
+            pst3.setString(4, generated_date);
+            status2 = pst3.executeUpdate();
+
+            //check if queries are successful
+            if (status > -1 && status1 > -1 && status2 > -1) {
+                session.setAttribute("success", "Bike Hire Successfully, your secret code is:" + secretCode + " dont share it");
+                session.setAttribute("start_station_id", start_stationId);
                 response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
                 response.setHeader("Location", "account-details.jsp");
-          }
-          
-        }catch(Exception e){
-           out.print(e);
+            } else {
+                session.setAttribute("error", "An error occured try again!!!!");
+                //session.setAttribute("start_station_id", start_stationId);
+                response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
+                response.setHeader("Location", "hire.jsp");
+            }
+
+        } catch (Exception e) {
+            out.print(e);
         }
     }
 

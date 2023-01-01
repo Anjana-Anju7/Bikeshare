@@ -71,7 +71,7 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <h1 class="cycles_text"><%=status%></h1>
+                            <h1 class="cycles_text"><%//=status%></h1>
                             <p class="lorem_text"><%=description%></p>
                             <div class="btn_main">
                                 <div class="buy_bt"><a href="hire.jsp?id=<%=id%>">Hire Now</a></div>

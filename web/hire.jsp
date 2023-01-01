@@ -150,14 +150,15 @@
                             </select>
                         </div>   
                         <div class="form-group">
-                            <input name="userid" type="text" readonly="true" value="<%=u%>"/> 
+                            <input name="userid" type="hidden" readonly="true" value="<%=u%>"/> 
                             <br>
-                            <input name="id" type="text" readonly="true" value="<%=bid%>"/>
+                            <input name="id" type="hidden" readonly="true" value="<%=bid%>"/>
                         </div>
                         <br><br>
                         
                         <div class="form-group">
-                            <button class="btn btn-primary">Submit</button><br>
+                            <input type="submit" value="Submit" class="btn btn-primary">
+                            <br>
                             <label><a href="bikes.jsp" style="color:white">Go Back</a></label>
                         </div>
                     </form>
