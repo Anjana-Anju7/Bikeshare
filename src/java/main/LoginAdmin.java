@@ -72,11 +72,9 @@ public class LoginAdmin extends HttpServlet {
                 session.setAttribute("username", rs.getString("username"));
                 session.setAttribute("userLevel", rs.getString("user_type"));
                 session.setAttribute("userid", rs.getString("id"));
-                //redirect according to user level 
-
+                //redirect according to user level
                 response.setStatus(response.SC_FOUND);
                 response.setHeader("Location", "admin.jsp");
-
             } else {
                 session.setAttribute("error", "Wrong User name or password");
                 response.setStatus(response.SC_FOUND);

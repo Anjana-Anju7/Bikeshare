@@ -51,6 +51,16 @@
                 <div class="container">
                     <div class="contact_main">
                         <h1 class="request_text">Account Details</h1>
+                          <span style="color:white;font-size:x-large;">
+                        <%
+                            if (session.getAttribute("success") != null && session.getAttribute("success") != "false") {
+                                String s = (String) session.getAttribute("success");
+                                out.println(s);
+                                //on page refresh remove message
+                                session.removeAttribute("success");
+                            }
+                        %>
+                        </span><br>
                         <label>Want to verify a code?? <a href="secret-code-verification.jsp">click here</a></label><br><br>
                         <span style="color:red;font-size:x-large;">
                         <%

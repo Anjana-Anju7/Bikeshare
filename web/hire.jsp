@@ -78,6 +78,7 @@
                         String sql = "select *from bike where id=?";
                         Connection con = DBConnection.ConnectDB();
                         PreparedStatement pst = con.prepareStatement(sql);
+                        String u = (String)session.getAttribute("userid");
                         pst.setInt(1, bid);
                         ResultSet rs = pst.executeQuery();
                         if (rs.next()) {
@@ -91,6 +92,7 @@
                         <em>Brand:<%=brand%></em><br>
                         <em>Model:<%=model%></em><br>
                         <em>Status:<%=status%></em><br>
+                        <strong>User ID:<%=u%></strong>
 <!--                        <em>Price: $ <%//=price%></em><br>-->
                     </div>
                     <% } %>
@@ -147,7 +149,13 @@
                                 <option value="daily">Daily 2 Euros</option>
                             </select>
                         </div>   
+                        <div class="form-group">
+                            <input name="userid" type="text" readonly="true" value="<%=u%>"/> 
+                            <br>
+                            <input name="id" type="text" readonly="true" value="<%=bid%>"/>
+                        </div>
                         <br><br>
+                        
                         <div class="form-group">
                             <button class="btn btn-primary">Submit</button><br>
                             <label><a href="bikes.jsp" style="color:white">Go Back</a></label>
