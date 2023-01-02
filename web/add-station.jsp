@@ -15,13 +15,16 @@
       response.setHeader("Location", "login-panel.jsp");
       return;
     }
-      //check whether admin is the one logged in
+       //check whether admin is the one logged in
     if(session.getAttribute("userid") != null && session.getAttribute("userid") != "false"){
-        if(session.getAttribute("userLevel") != "admin"){
+        if(!session.getAttribute("userLevel").equals("admin")){
             response.setStatus(response.SC_FOUND);
             response.setHeader("Location", "login-panel.jsp");
-            return;
         }
+//        else{
+//            response.setStatus(response.SC_FOUND);
+//            response.setHeader("Location", "admin.jsp");
+//        }
     }
 %>
 <html lang="en">

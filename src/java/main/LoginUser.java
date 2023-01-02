@@ -73,9 +73,13 @@ public class LoginUser extends HttpServlet {
                 session.setAttribute("userLevel", rs.getString("user_type"));
                 session.setAttribute("userid", rs.getString("id"));
                 //redirect according to user level 
-
-                response.setStatus(response.SC_FOUND);
-                response.setHeader("Location", "account-details.jsp");
+                if (session.getAttribute("userLevel").equals("admin")) {
+                    response.setStatus(response.SC_FOUND);
+                    response.setHeader("Location", "admin.jsp");
+                } else if (session.getAttribute("userLevel").equals("standard")) {
+                    response.setStatus(response.SC_FOUND);
+                    response.setHeader("Location", "account-details.jsp");
+                }
 
             } else {
                 session.setAttribute("error", "Wrong User name or password");

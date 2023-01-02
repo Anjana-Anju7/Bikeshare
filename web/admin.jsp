@@ -11,6 +11,9 @@
 <!DOCTYPE html>
 <%
     //check if session is set, i.e user is logged in
+//    HttpServletRequest request;
+//    HttpServletResponse response;
+//    HttpSession session = request.getSession();
     if (session.getAttribute("userid")==null){
       response.setStatus(response.SC_FOUND);
       response.setHeader("Location", "login-panel.jsp");
@@ -18,11 +21,14 @@
     }
       //check whether admin is the one logged in
     if(session.getAttribute("userid") != null && session.getAttribute("userid") != "false"){
-        if(session.getAttribute("userLevel") != "admin"){
+        if(!session.getAttribute("userLevel").equals("admin")){
             response.setStatus(response.SC_FOUND);
             response.setHeader("Location", "login-panel.jsp");
-            return;
         }
+//        else{
+//            response.setStatus(response.SC_FOUND);
+//            response.setHeader("Location", "admin.jsp");
+//        }
     }
 %>
 <html lang="en">
