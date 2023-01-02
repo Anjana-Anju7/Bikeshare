@@ -10,15 +10,15 @@
 <!DOCTYPE html>
 <%
     //check if session is set, i.e user is logged in
-    if (session.getAttribute("userid")==null){
-      response.setStatus(response.SC_FOUND);
-      response.setHeader("Location", "login-panel.jsp");
-      return;
-    }
+//    if (session.getAttribute("userid")==null){
+//      response.setStatus(response.SC_FOUND);
+//      response.setHeader("Location", "login-panel.jsp");
+//      return;
+//    }
 %>
 <html lang="en">
     <head>
-        <title>Code verification</title>
+        <title>Change password</title>
         <jsp:include page="include/css.jsp"/>
         <jsp:include page="include/meta.jsp"/>
         <!--Start of Tawk.to Script-->
@@ -50,7 +50,7 @@
             <div class="contact_section layout_padding">
                 <div class="container">
                     <div class="contact_main">
-                        <h1 class="request_text">Verify Secret Code:</h1>
+                        <h1 class="request_text">Change Password:</h1>
                         <span style="color:red;font-size:x-large;">
                         <%
                             if (session.getAttribute("error") != null && session.getAttribute("error") != "false") {
@@ -71,25 +71,20 @@
                             }
                         %>
                         </span><br>
-                    <form action="VerifyCode" method="post">
+                    <form action="ChangePassword" method="post">
                         
                         <div class="form-group">
-                            <label>Enter Code:</label><br>
-                            <input type="number" class="email-bt" name="code" required="true" />
+                            <label>User Name:</label><br>
+                            <input type="text" class="email-bt" name="uname" required="true" />
                         </div>  
-                        <% 
-                            if (session.getAttribute("userid") != null && session.getAttribute("userid") != "false") {
-                                
-                            String user = (String)session.getAttribute("userid");
-                            %>
                          <div class="form-group">
-                             <input type="hidden" class="email-bt" readonly="true" name="userid" value="<%=user%>" required="true" />
+                             <label>Enter New Password:</label>
+                             <input type="text" class="email-bt" name="newpass"  required="true" />
                         </div> 
-                        <% } %>
                         <br>
                         <div class="form-group">
                            <button class="btn btn-primary">Submit</button><br>
-                           <label><a href="index.jsp" style="color:white">Go Back</a></label>
+                           <label><a href="Login.jsp" style="color:white">Go Back</a></label>
                         </div>
                     </form>
 

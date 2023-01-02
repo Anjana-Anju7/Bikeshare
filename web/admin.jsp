@@ -72,11 +72,11 @@
 
             <div class="container">
                 <h1>Admin Panel:</h1> 
-                <span style="float: right;">
+<!--                <span style="float: right;">
                     <form action="Logout">
                         <button class="btn btn-primary">Logout</button>   
                     </form>
-                </span>
+                </span>-->
                 <br><br>
                 <a href="<%=request.getContextPath()%>/add-bikes.jsp">Add Bike</a> | <a href="<%=request.getContextPath()%>/add-station.jsp">Add Station</a>
             <hr>

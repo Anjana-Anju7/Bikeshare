@@ -16,23 +16,6 @@
         response.setHeader("Location", "login-panel.jsp");
         return;
     }
-
-    //get logged in user details 
-//    if (session.getAttribute("userid") != null && session.getAttribute("userid") != "false") {
-//        String uid = (String) session.getAttribute("userid");
-//        String sql = "select *from users where userId=?";
-//        Connection con = DBConnection.ConnectDB();
-//        PreparedStatement pst = con.prepareStatement(sql);
-//        pst.setString(1, uid);
-//        ResultSet rs = pst.executeQuery();
-//        if (rs.next()) {
-//            int id = rs.getInt("userId");
-//            String fname = rs.getString("first_name");
-//            String mname = rs.getString("middle_name");
-//            String lname = rs.getString("last_name");
-//            String dob = rs.getString("dob");
-//        }
-//    }
 %>
 <html lang="en">
     <head>

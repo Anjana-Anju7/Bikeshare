@@ -40,6 +40,10 @@
         <servlet-name>HireBike</servlet-name>
         <servlet-class>main.HireBike</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ChangePassword</servlet-name>
+        <servlet-class>main.ChangePassword</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>CreateAccount</servlet-name>
         <url-pattern>/CreateAccount</url-pattern>
@@ -79,6 +83,10 @@
     <servlet-mapping>
         <servlet-name>HireBike</servlet-name>
         <url-pattern>/HireBike</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ChangePassword</servlet-name>
+        <url-pattern>/ChangePassword</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

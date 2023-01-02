@@ -29,7 +29,9 @@ public class CreateAccount extends HttpServlet {
     static PreparedStatement pst = null;
     static PreparedStatement pst2 = null;
     static PreparedStatement pst3 = null;
+    static PreparedStatement pst4 = null;
     static ResultSet rs = null;
+    static ResultSet rs2 = null;
     static Connection con = null;
     static boolean status = false;
     static String sql = "";
@@ -81,27 +83,33 @@ public class CreateAccount extends HttpServlet {
             float topup = Float.parseFloat(request.getParameter("topup"));
             HttpSession session = request.getSession();
 
-           int countCardNumbers = 0;
-           int countCardCsv = 0;
-           
-           countCardNumbers = cardNumber.length();
-           countCardCsv = csv.length();
-//
-//            while (cardNumber != 0) {
-//                // num = num/10
-//                cardNumber /= 10;
-//                ++countCardNumbers;
-//            }
-//            
-//            while (csv != 0) {
-//                // num = num/10
-//                csv /= 10;
-//                ++countCardCsv;
-//            }
-            
-            if(countCardNumbers != 16 || countCardCsv != 3){
+            int countCardNumbers = 0;
+            int countCardCsv = 0;
+
+            countCardNumbers = cardNumber.length();
+            countCardCsv = csv.length();
+
+            //check if user name exists.
+            //check if username exists 
+            try {
+                String sql = "select *from users where username=?";
+                pst4 = con.prepareStatement(sql);
+                pst4.setString(1, m.getUsername());
+                rs2 = pst4.executeQuery();
+                if (rs2.next()) {
+                    session.setAttribute("error", "Another user has the same user name, use another one");
+                    response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
+                    response.setHeader("Location", "create-account.jsp");
+                    return;
+                }
+
+            } catch (SQLException e) {
+                out.print(e);
+            }
+
+            if (countCardNumbers != 16 || countCardCsv != 3) {
                 //set session success
-                session.setAttribute("error", "Card Number should be 16 digits and CSV 3 digits you entered cardNumber:"+countCardNumbers+" digits and CSV:"+countCardCsv+" digits");
+                session.setAttribute("error", "Card Number should be 16 digits and CSV 3 digits you entered cardNumber:" + countCardNumbers + " digits and CSV:" + countCardCsv + " digits");
                 response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
                 response.setHeader("Location", "create-account.jsp");
                 return;

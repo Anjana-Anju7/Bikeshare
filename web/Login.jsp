@@ -74,7 +74,7 @@
                         <div class="form-group">
                             <button class="btn btn-primary">Login</button><br>
                             <label>Don't have an account?</label><a href="create-account.jsp">Create Here</a>
-                            <a href="index.jsp">Forgot Password</a>
+                            <a href="change-password.jsp">Forgot Password</a>
                         </div>
                     </form>
 

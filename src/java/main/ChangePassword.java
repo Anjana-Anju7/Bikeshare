@@ -23,13 +23,13 @@ import javax.servlet.http.HttpSession;
  *
  * @author Steven
  */
-public class UpdateAccount extends HttpServlet {
+public class ChangePassword extends HttpServlet {
 
     static PreparedStatement pst = null;
+    static PreparedStatement pst2 = null;
     static ResultSet rs = null;
     static Connection con = null;
     static int status;
-    static String sql = "";
 
     @Override
     public void init() throws ServletException {
@@ -54,34 +54,38 @@ public class UpdateAccount extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        HttpSession session = request.getSession();
         PrintWriter out = response.getWriter();
-        String userId = request.getParameter("id");
-        String fname = request.getParameter("fname");
-        String mname = request.getParameter("mname");
-        String lname = request.getParameter("lname");
-        String dob = request.getParameter("dob");
+        HttpSession session = request.getSession();
+        String username = request.getParameter("uname");
+        String pass = request.getParameter("newpass");
+        //check if username exists 
         try {
-            sql = "update profile set first_name=?,middle_name=?,last_name=?,dob=? where userId=?";
+            String sql = "select *from users where username=?";
             pst = con.prepareStatement(sql);
-            pst.setString(1, fname);
-            pst.setString(2, mname);
-            pst.setString(3, lname);
-            pst.setString(4, dob);
-            pst.setString(5, userId);
-            status = pst.executeUpdate();
-            //if success
-
-            if (status > -1) {
-                session.setAttribute("success", "Profile Updated successfully");
+            pst.setString(1, username);
+            rs = pst.executeQuery();
+            if (!rs.next()) {
+                session.setAttribute("error", "User Not Found, try again");
                 response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
-                response.setHeader("Location", "account-details.jsp");
-            } else {
-                session.setAttribute("error", "Error updating profile!!");
-                response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
-                response.setHeader("Location", "account-details.jsp");
+                response.setHeader("Location", "change-password.jsp");
+                return;
             }
 
+        } catch (SQLException e) {
+            out.print(e);
+        }
+        //if exists , update 
+        try {
+            String sql2 = "update users set password=? where username=?";
+            pst2 = con.prepareStatement(sql2);
+            pst2.setString(1, pass);
+            pst2.setString(2, username);
+            status = pst2.executeUpdate();
+            if (status > -1) {
+                session.setAttribute("success", "Password Changed Successfully,Use it for login");
+                response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
+                response.setHeader("Location", "change-password.jsp");
+            }
         } catch (SQLException e) {
             out.print(e);
         }
