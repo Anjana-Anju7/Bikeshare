@@ -160,8 +160,46 @@
                 </tr>
                 <% } %>
             </table>
+            <br><br>
+            <h3>Stations Analysis:</h3>
+            <table border="1">
+               <tr>
+                   <th>Station Id</th>
+                    <th>Station Name</th>
+                    <th>Number of times Booked</th>
+                    <th>Total Revenue</th>   
+                </tr>   
+                
+                <%
+                  String sql3 = "select a.id as station_id, a.stationName, count(b.stationId) "
+                          + " as Number_of_times_booked, sum(b.amount) as Total_revenue "
+                          + " from stations a,transactions b where a.id=b.stationId group by b.stationId;";
+                    // File[] files = dir.listFiles();
+                    //Random rand = new Random();
+                    //File file = files[rand.nextInt(files.length)];
+                    Connection con3 = DBConnection.ConnectDB();
+                    PreparedStatement pst3 = con.prepareStatement(sql3);
+                    ResultSet rs3 = pst3.executeQuery();
+                    while (rs3.next()) {
+                        int id = rs3.getInt("station_id");
+                        String name = rs3.getString("stationName");
+                        String num = rs3.getString("Number_of_times_booked");
+                        String revenue = rs3.getString("Total_revenue");
+                          
+                %>
+                <tr>
+                    <td><%=id%></td>  
+                    <td><%=name%></td> 
+                    <td><%=num%></td> 
+                    <td><%=revenue%></td>
+                </tr>
+                <% } %>
+            </table>
+            <br><br>
+            <button class="btn btn-primary" onclick="window.print()">Print</button>
+            
         </div>
-
+        
         <br><br><br>
         <!-- contact section end -->
         <!-- footer section start -->
