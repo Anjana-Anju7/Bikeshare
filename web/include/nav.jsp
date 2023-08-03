@@ -1,8 +1,4 @@
-<%-- 
-    Document   : nav
-    Created on : Nov 16, 2022, 1:24:37 PM
-    Author     : softnut
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>
@@ -21,8 +17,12 @@
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/about.jsp">About</a>
             </li>
+          
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/bikes.jsp">Bikes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="<%=request.getContextPath()%>/view-bikes-locations.jsp">Maps</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="<%=request.getContextPath()%>/contact.jsp">Contact</a>

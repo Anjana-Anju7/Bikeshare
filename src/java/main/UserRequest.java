@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package main;
 
 import java.io.IOException;
@@ -61,7 +57,7 @@ public class UserRequest extends HttpServlet {
         LocalDateTime date = LocalDateTime.now();
         String date1 = date.toString();
           try{
-            /* TODO output your page here. You may use following sample code. */
+          
            String sql = "insert into user_requests(name,email,phone_number,message,date) values(?,?,?,?,?)";
            pst=con.prepareStatement(sql);
            pst.setString(1, name);

@@ -1,8 +1,4 @@
-<%-- 
-    Document   : contact
-    Created on : Nov 16, 2022, 1:40:30 PM
-    Author     : softnut
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -40,7 +36,7 @@
         <div class="contact_section layout_padding">
             <div class="container">
                 <div class="contact_main">
-                    <h1 class="request_text">User Account Login</h1>
+                    <h1 class="request_text"> Account Login</h1>
                     <%-- get sessions Here --%>
                     <span style="color:white;font-size:x-large;">
                         <%
@@ -81,16 +77,11 @@
                 </div>
             </div>
         </div>
-        <!-- contact section end -->
-        <!-- footer section start -->
+        
         <jsp:include page="include/footer.jsp"></jsp:include>
-            <!-- footer section end -->
-
-            <!-- copyright section start -->
+          
         <jsp:include page="include/copyright.jsp"></jsp:include>
-            <!-- copyright section end -->  
-
-            <!-- Javascript files-->
+          
         <jsp:include page="include/js.jsp"></jsp:include>
     </body>
 </html>

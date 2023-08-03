@@ -1,8 +1,4 @@
-<%-- 
-    Document   : copyright
-    Created on : Nov 16, 2022, 1:14:08 PM
-    Author     : softnut
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="copyright_section">

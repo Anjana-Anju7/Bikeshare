@@ -1,8 +1,4 @@
-<%-- 
-    Document   : css
-    Created on : Nov 16, 2022, 1:00:25 PM
-    Author     : softnut
---%>
+
 
 <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/style.css">

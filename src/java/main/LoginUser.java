@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package main;
 
 import java.io.IOException;
@@ -29,6 +25,7 @@ public class LoginUser extends HttpServlet {
     static PreparedStatement pst = null;
     static PreparedStatement pst2 = null;
     static ResultSet rs = null;
+    static ResultSet rs2 = null;
     static Connection con = null;
     static boolean status = false;
     static String sql = "";
@@ -68,7 +65,14 @@ public class LoginUser extends HttpServlet {
             rs = pst.executeQuery();
             status = rs.next();
             HttpSession session = request.getSession();
-            if (status) {
+            if (status){
+                //first check if user is blacklisted
+                if (rs.getString("status").equals("blacklisted")) {
+                    session.setAttribute("error", "Your account is inactive, contact support!!");
+                    response.setStatus(response.SC_FOUND);
+                    response.setHeader("Location", "Login.jsp");
+                    return;
+                }else{
                 session.setAttribute("username", rs.getString("username"));
                 session.setAttribute("userLevel", rs.getString("user_type"));
                 session.setAttribute("userid", rs.getString("id"));
@@ -80,7 +84,7 @@ public class LoginUser extends HttpServlet {
                     response.setStatus(response.SC_FOUND);
                     response.setHeader("Location", "account-details.jsp");
                 }
-
+                }
             } else {
                 session.setAttribute("error", "Wrong User name or password");
                 response.setStatus(response.SC_FOUND);

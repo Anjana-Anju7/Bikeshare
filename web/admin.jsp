@@ -1,8 +1,3 @@
-<%-- 
-    Document   : contact
-    Created on : Nov 16, 2022, 1:40:30 PM
-    Author     : softnut
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>
@@ -14,14 +9,14 @@
 //    HttpServletRequest request;
 //    HttpServletResponse response;
 //    HttpSession session = request.getSession();
-    if (session.getAttribute("userid")==null){
-      response.setStatus(response.SC_FOUND);
-      response.setHeader("Location", "login-panel.jsp");
-      return;
+    if (session.getAttribute("userid") == null) {
+        response.setStatus(response.SC_FOUND);
+        response.setHeader("Location", "login-panel.jsp");
+        return;
     }
-      //check whether admin is the one logged in
-    if(session.getAttribute("userid") != null && session.getAttribute("userid") != "false"){
-        if(!session.getAttribute("userLevel").equals("admin")){
+    //check whether admin is the one logged in
+    if (session.getAttribute("userid") != null && session.getAttribute("userid") != "false") {
+        if (!session.getAttribute("userLevel").equals("admin")) {
             response.setStatus(response.SC_FOUND);
             response.setHeader("Location", "login-panel.jsp");
         }
@@ -60,6 +55,9 @@
                 border: 1px solid black;
                 border-collapse: collapse;
             }
+            body{
+                overflow: auto;
+            }
         </style>
     </head>
     <body>
@@ -72,16 +70,36 @@
 
             <div class="container">
                 <h1>Admin Panel:</h1> 
-<!--                <span style="float: right;">
-                    <form action="Logout">
-                        <button class="btn btn-primary">Logout</button>   
-                    </form>
-                </span>-->
+                <!--                <span style="float: right;">
+                                    <form action="Logout">
+                                        <button class="btn btn-primary">Logout</button>   
+                                    </form>
+                                </span>-->
                 <br><br>
                 <a href="<%=request.getContextPath()%>/add-bikes.jsp">Add Bike</a> | <a href="<%=request.getContextPath()%>/add-station.jsp">Add Station</a>
             <hr>
             <hr>               
             <h3>Registered Users </h3>
+            <span style="color:red;font-size:x-large;">
+                <%
+                    if (session.getAttribute("error") != null && session.getAttribute("error") != "false") {
+                        String s = (String) session.getAttribute("error");
+                        out.println(s);
+                        //on page refresh remove message
+                        session.removeAttribute("error");
+                    }
+                %>
+            </span><br>
+            <span style="color:blue;font-size:x-large;">
+                <%
+                    if (session.getAttribute("success") != null && session.getAttribute("success") != "false") {
+                        String s = (String) session.getAttribute("success");
+                        out.println(s);
+                        //on page refresh remove message
+                        session.removeAttribute("success");
+                    }
+                %>
+            </span><br>
             <table border="1">
                 <tr>
                     <th>ID</th>
@@ -111,15 +129,21 @@
                         String status = rs.getString("status");
 
                 %>
-                <tr>
-                    <td><%=userid%></td>  
-                    <td><%=fname%></td> 
-                    <td><%=mname%></td> 
-                    <td><%=lname%></td> 
-                    <td><%=dob%></td> 
-                    <td><%=usertype%></td> 
-                    <td><%=status%></td>
-                </tr>
+                <form method="post" action="BlackListUser">
+                    <tr>
+                        <td><%=userid%></td>  
+                        <td><%=fname%></td> 
+                        <td><%=mname%></td> 
+                        <td><%=lname%></td> 
+                        <td><%=dob%></td> 
+                        <td><%=usertype%></td> 
+                        <td><%=status%></td>
+                        <td>
+                            <a href="user-status.jsp?id=<%=userid%>">Update User Status</a> 
+                        </td>
+                        
+                    </tr>
+                </form>
                 <% } %>
             </table>
             <br><br>
@@ -163,17 +187,17 @@
             <br><br>
             <h3>Stations Analysis:</h3>
             <table border="1">
-               <tr>
-                   <th>Station Id</th>
+                <tr>
+                    <th>Station Id</th>
                     <th>Station Name</th>
                     <th>Number of times Booked</th>
                     <th>Total Revenue</th>   
                 </tr>   
-                
+
                 <%
-                  String sql3 = "select a.id as station_id, a.stationName, count(b.stationId) "
-                          + " as Number_of_times_booked, sum(b.amount) as Total_revenue "
-                          + " from stations a,transactions b where a.id=b.stationId group by b.stationId;";
+                    String sql3 = "select a.id as station_id, a.stationName, count(b.stationId) "
+                            + " as Number_of_times_booked, sum(b.amount) as Total_revenue "
+                            + " from stations a,transactions b where a.id=b.stationId group by b.stationId;";
                     // File[] files = dir.listFiles();
                     //Random rand = new Random();
                     //File file = files[rand.nextInt(files.length)];
@@ -185,7 +209,7 @@
                         String name = rs3.getString("stationName");
                         String num = rs3.getString("Number_of_times_booked");
                         String revenue = rs3.getString("Total_revenue");
-                          
+
                 %>
                 <tr>
                     <td><%=id%></td>  
@@ -193,21 +217,21 @@
                     <td><%=num%></td> 
                     <td><%=revenue%></td>
                 </tr>
-                <% } %>
+                <% }%>
             </table>
             <br><br>
             <button class="btn btn-primary" onclick="window.print()">Print</button>
-            
+
         </div>
-        
+
         <br><br><br>
         <!-- contact section end -->
         <!-- footer section start -->
-        <jsp:include page="include/footer.jsp"></jsp:include>
+        
             <!-- footer section end -->
 
             <!-- copyright section start -->
-        <jsp:include page="include/copyright.jsp"></jsp:include>
+      
             <!-- copyright section end -->  
 
             <!-- Javascript files-->

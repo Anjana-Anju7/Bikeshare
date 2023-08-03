@@ -7,8 +7,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -16,25 +14,22 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import org.apache.tomcat.jni.SSLContext;
 
 /**
  *
  * @author
  */
-public class HireBike extends HttpServlet {
+public class VerifyReturnCode extends HttpServlet {
 
     static PreparedStatement pst = null;
     static PreparedStatement pst2 = null;
     static PreparedStatement pst3 = null;
+    static PreparedStatement pst4 = null;
+    static PreparedStatement pst5 = null;
     static ResultSet rs = null;
+    static ResultSet rs1 = null;
+    static ResultSet rs2 = null;
     static Connection con = null;
-    static int status;
-    static int status1;
-    static int status2;
-    static String sql = "";
-    static String sql2 = "";
-    static String sql3 = "";
 
     @Override
     public void init() throws ServletException {
@@ -61,76 +56,43 @@ public class HireBike extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
         HttpSession session = request.getSession();
-        //set variables 
-        //kiosk variables
-        int userId = Integer.parseInt(request.getParameter("userid"));
-        int secretCode = (int) (Math.random() * 100001);
-        LocalDateTime myDateObj = LocalDateTime.now();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String generated_date = myDateObj.format(myFormatObj);
-
-        //transactions 
-        int start_stationId = Integer.parseInt(request.getParameter("start"));
-        float amount = 0;
-        String plan = request.getParameter("plan");
-        LocalDateTime myDateObj2 = LocalDateTime.now();
-        DateTimeFormatter myFormatObj2 = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        String trans_date = myDateObj.format(myFormatObj2);
-
-        if (plan.equals("yearly")) {
-            amount = 90;
-        } else if (plan.equals("daily")) {
-            amount = 2;
-        }
-        //rentals
-        int bikeId = Integer.parseInt(request.getParameter("id"));
-        int end_stationId = Integer.parseInt(request.getParameter("end"));
-
+        String secretCode = request.getParameter("code");
+        String userid = request.getParameter("userid");
+        //check if code exists
         try {
-            //insert into rentals
-            sql = "insert into rentals(userId,bikeId,start,end,subscription_plan)values(?,?,?,?,?)";
+            String sql = "select *from returnkiosk where userId=? and secretCode=?";
             pst = con.prepareStatement(sql);
-            pst.setInt(1, userId);
-            pst.setInt(2, bikeId);
-            pst.setInt(3, start_stationId);
-            pst.setInt(4, end_stationId);
-            pst.setString(5, plan);
-            status = pst.executeUpdate();
-
-            //insert into transactions
-            sql2 = "insert into transactions(userId,stationId,amount,transaction_date)values(?,?,?,?)";
-            pst2 = con.prepareStatement(sql2);
-            pst2.setInt(1, userId);
-            pst2.setInt(2, start_stationId);
-            pst2.setFloat(3, amount);
-            pst2.setString(4, trans_date);
-            status1 = pst2.executeUpdate();
-
-            //insert into kiosk
-            sql3 = "insert into kiosk(userId,start_station_id,secret_code,generated_date)values(?,?,?,?)";
-            pst3 = con.prepareStatement(sql3);
-            pst3.setInt(1, userId);
-            pst3.setInt(2, start_stationId);
-            pst3.setInt(3, secretCode);
-            pst3.setString(4, generated_date);
-            status2 = pst3.executeUpdate();
-
-            //check if queries are successful
-            if (status > -1 && status1 > -1 && status2 > -1) {
-                session.setAttribute("success", "Bike Hire Successfully, your secret code is:" + secretCode + " dont share it");
-                session.setAttribute("start_station_id", start_stationId);
+            pst.setString(1, userid);
+            pst.setString(2, secretCode);
+            rs = pst.executeQuery();
+            if (!rs.next()){
+                session.setAttribute("error", "Invalid Code, Bike Not returned, try again");
                 response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
-                response.setHeader("Location", "account-details.jsp");
-            } else {
-                session.setAttribute("error", "An error occured try again!!!!");
-                //session.setAttribute("start_station_id", start_stationId);
-                response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
-                response.setHeader("Location", "hire.jsp");
+                response.setHeader("Location", "secret-code-return-verify.jsp");
+                return;
             }
-
-        } catch (Exception e) {
+            else{
+                String sql4 = "select id from stations where id=?";
+                pst4 = con.prepareStatement(sql4);
+                pst4.setString(1, rs.getString("destination"));
+                rs2= pst4.executeQuery();
+                //if record exists
+                if(rs2.next()){
+                   int start_id = rs2.getInt("id");
+                   //reduce number of bikes in stations for the particular station
+                   String sql5 = "update stations set number_of_bikes = number_of_bikes+1 where id=?";
+                   pst5 = con.prepareStatement(sql5);
+                   pst5.setInt(1, start_id);
+                   pst5.executeUpdate();
+                }
+                session.setAttribute("success", "Code Verified!! Bike returned Successfully");
+                response.setStatus(response.SC_FOUND); // can also be SC_Moved_Temporarily
+                response.setHeader("Location", "secret-code-return-verify.jsp"); 
+            }
+        } catch (SQLException e) {
             out.print(e);
         }
+      
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

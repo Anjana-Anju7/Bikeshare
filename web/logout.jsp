@@ -1,8 +1,4 @@
-<%-- 
-    Document   : logout
-    Created on : Jan 1, 2023, 9:32:17 PM
-    Author     : 
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>

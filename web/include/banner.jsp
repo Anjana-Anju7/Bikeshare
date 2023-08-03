@@ -1,8 +1,4 @@
-<%-- 
-    Document   : banner
-    Created on : Nov 28, 2022, 10:09:00 AM
-    Author     : softnut
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 

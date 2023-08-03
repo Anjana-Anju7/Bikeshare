@@ -1,8 +1,4 @@
-<%-- 
-    Document   : bikes
-    Created on : Nov 16, 2022, 1:22:02 PM
-    Author     : softnut
---%>
+
 
 <%@page import="main.DBConnection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

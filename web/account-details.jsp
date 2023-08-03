@@ -1,8 +1,4 @@
-<%-- 
-    Document   : contact
-    Created on : Nov 16, 2022, 1:40:30 PM
-    Author     : softnut
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>
@@ -71,7 +67,9 @@
                             }
                         %>
                     </span><br>
-                    <label>Want to verify a code?? <a href="secret-code-verification.jsp">click here</a></label><br><br>
+                    <label>Want to verify a code?? <a href="secret-code-verification.jsp">click here</a></label><br>
+                    <label><a href="view-travel-report.jsp?uid=<%=session.getAttribute("userid")%>">View Travel Report</a></label><br>
+                    <label><a href="track-location.jsp">Track Yourself</a></label><br>
                     <span style="color:red;font-size:x-large;">
                         <%
                             if (session.getAttribute("error") != null && session.getAttribute("error") != "false") {

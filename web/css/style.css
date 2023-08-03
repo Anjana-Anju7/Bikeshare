@@ -29,7 +29,7 @@ body {
     font-family: 'Poppins', sans-serif;
     line-height: 1.80857;
     font-weight: normal;
-    overflow-x: hidden;
+    overflow-x: visible;
 }
 
 a {
@@ -211,7 +211,7 @@ button {
     float: left;
     background-image: linear-gradient(-13deg, #ffffff 30%, #274d5a 20%);
     position: relative;
-    overflow-x: hidden; 
+    overflow-x: visible; 
 }
 
 .header_bg {

@@ -1,8 +1,4 @@
-<%-- 
-    Document   : contact
-    Created on : Nov 16, 2022, 1:40:30 PM
-    Author     : softnut
---%>
+
 
 <%@page import="main.DBConnection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -52,6 +48,7 @@
                 <div class="container">
                     <div class="contact_main">
                         <h1 class="request_text">Hire Bicycle</h1>
+                        <h4><a href="return-bike.jsp">Return Bike</a></h4>
                         <span style="color:red;font-size:x-large;">
                         <%
                             if (session.getAttribute("error") != null && session.getAttribute("error") != "false") {
@@ -128,7 +125,7 @@
                                 <%
                                     String sql2 = "select *from stations";
                                     Connection con2 = DBConnection.ConnectDB();
-                                    PreparedStatement pst2 = con2.prepareStatement(sql1);
+                                    PreparedStatement pst2 = con2.prepareStatement(sql2);
                                     ResultSet rs2 = pst2.executeQuery();
                                     while (rs2.next()) {
                                         int sid2 = rs2.getInt("id");
@@ -145,7 +142,7 @@
                             <span style="color:white;"><em><strong>NB: The system will auto charge your credit card.year plan:90 Euros, 24 hrs: 2 Euros </strong></em></span>
                             <select name="plan" required="true" class="email-bt" >
                                 <option value="">select your plan</option> 
-                                <option value="yearly">yearly 90 Euros</option> 
+                                <option value="yearly">yearly 90 pounds</option> 
                                 <option value="daily">Daily 2 Euros</option>
                             </select>
                         </div>   

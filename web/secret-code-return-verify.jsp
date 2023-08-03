@@ -1,4 +1,5 @@
 
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>
 <%@ page import = "javax.servlet.http.*,javax.servlet.*" %>
@@ -10,21 +11,10 @@
       response.setHeader("Location", "login-panel.jsp");
       return;
     }
-       //check whether admin is the one logged in
-    if(session.getAttribute("userid") != null && session.getAttribute("userid") != "false"){
-        if(!session.getAttribute("userLevel").equals("admin")){
-            response.setStatus(response.SC_FOUND);
-            response.setHeader("Location", "login-panel.jsp");
-        }
-//        else{
-//            response.setStatus(response.SC_FOUND);
-//            response.setHeader("Location", "admin.jsp");
-//        }
-    }
 %>
 <html lang="en">
     <head>
-        <title>Add Station</title>
+        <title>Code verification</title>
         <jsp:include page="include/css.jsp"/>
         <jsp:include page="include/meta.jsp"/>
         <!--Start of Tawk.to Script-->
@@ -56,7 +46,7 @@
             <div class="contact_section layout_padding">
                 <div class="container">
                     <div class="contact_main">
-                        <h1 class="request_text">Add New Station</h1>
+                        <h1 class="request_text">Verify Secret Code:</h1>
                         <span style="color:red;font-size:x-large;">
                         <%
                             if (session.getAttribute("error") != null && session.getAttribute("error") != "false") {
@@ -77,31 +67,25 @@
                             }
                         %>
                         </span><br>
-                    <form action="AddStation" method="post">
+                    <form action="VerifyReturnCode" method="post">
                         
                         <div class="form-group">
-                            <label>Enter Station Name:</label><br>
-                            <input type="text" class="email-bt" name="sname" required="true" />
-                        </div>                       
-                        <br>
-                        <div class="form-group">
-                            <label>Number of Bikes:</label><br>
-                            <input type="number" class="email-bt" name="numBikes" required="true" />
-                        </div>                       
-                        <br>
-                        <div class="form-group">
-                            <label>Station Latitude:</label><br>
-                            <input type="text" class="email-bt" name="latitude" required="true" />
-                        </div>                       
-                        <br>
-                        <div class="form-group">
-                            <label>Station longitude:</label><br>
-                            <input type="text" class="email-bt" name="longitude" required="true" />
-                        </div>                       
+                            <label>Enter Code:</label><br>
+                            <input type="number" class="email-bt" name="code" required="true" />
+                        </div>  
+                        <% 
+                            if (session.getAttribute("userid") != null && session.getAttribute("userid") != "false") {
+                                
+                            String user = (String)session.getAttribute("userid");
+                            %>
+                         <div class="form-group">
+                             <input type="hidden" class="email-bt" readonly="true" name="userid" value="<%=user%>" required="true" />
+                        </div> 
+                        <% } %>
                         <br>
                         <div class="form-group">
                            <button class="btn btn-primary">Submit</button><br>
-                           <label><a href="admin.jsp" style="color:white">Go Back</a></label>
+                           <label><a href="index.jsp" style="color:white">Go Back</a></label>
                         </div>
                     </form>
 

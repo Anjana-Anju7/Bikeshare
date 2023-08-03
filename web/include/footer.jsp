@@ -1,8 +1,4 @@
-<%-- 
-    Document   : footer
-    Created on : Nov 16, 2022, 1:16:47 PM
-    Author     : softnut
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="footer_section layout_padding">

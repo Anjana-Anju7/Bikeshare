@@ -1,8 +1,4 @@
-<%-- 
-    Document   : about
-    Created on : Nov 16, 2022, 1:31:23 PM
-    Author     : softnut
---%>
+
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>

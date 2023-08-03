@@ -1,8 +1,3 @@
-<%-- 
-    Document   : contact
-    Created on : Nov 16, 2022, 1:40:30 PM
-    Author     : softnut
---%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ page import = "java.io.*,java.util.*,java.sql.*"%>
@@ -79,7 +74,7 @@
                         </div>  
                          <div class="form-group">
                              <label>Enter New Password:</label>
-                             <input type="text" class="email-bt" name="newpass"  required="true" />
+                             <input type="password" class="email-bt" name="newpass"  required="true" />
                         </div> 
                         <br>
                         <div class="form-group">
